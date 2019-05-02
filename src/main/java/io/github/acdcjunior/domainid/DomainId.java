@@ -14,12 +14,9 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
 
     protected long id;
 
-    public DomainId(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("O id não pode ser nulo.");
-        }
+    public DomainId(long id) {
         if (id <= 0L) {
-            throw new IllegalArgumentException("O id deve ser maior que zero. Obtido: " + id);
+            throw new IllegalArgumentException("The id should be greated than zero. Supplied: " + id);
         }
         this.id = id;
     }
