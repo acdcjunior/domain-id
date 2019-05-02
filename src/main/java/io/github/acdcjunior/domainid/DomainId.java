@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 
 
 @SuppressWarnings("WeakerAccess")
@@ -52,6 +53,22 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
             ids.add(domainId);
         }
         return ids;
+    }
+
+    /**
+     * Converts a list of longs into a list of the given domain id type.
+     *
+     * @param domainIdClass The Domain ID class.
+     * @param longs Longs to be converted.
+     * @param <T>    Type of the Domain ID.
+     * @return List of domain ids corresponding to the supplied longs.
+     */
+    public static <T extends DomainId> List<T> map(Class<T> domainIdClass, long... longs) {
+        List<Long> longsList = new ArrayList<>(longs.length);
+        for (long x : longs) {
+            longsList.add(x);
+        }
+        return map(longsList, domainIdClass);
     }
 
     @SuppressWarnings("unchecked")
