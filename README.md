@@ -1,3 +1,5 @@
+# NOTE: NOT COMPLETED YET, BUT SOON.
+
 # domain-id
 
 An implementation for Domain IDs, as suggested by Implementing Domain Driven Design.
