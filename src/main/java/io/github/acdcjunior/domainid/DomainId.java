@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @SuppressWarnings("WeakerAccess")
-public abstract class DomainId implements Comparable<DomainId>, Serializable {
+public abstract class DomainId implements Comparable<DomainId>, Serializable, Cloneable {
 
     private static final long serialVersionUID = -1L;
 
@@ -93,6 +93,11 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable {
     @Override
     public int compareTo(DomainId o) {
         return Long.compare(this.toLong(), o.toLong());
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }
