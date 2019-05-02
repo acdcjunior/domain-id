@@ -1,5 +1,6 @@
 package io.github.acdcjunior.domainid;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.util.List;
@@ -13,15 +14,9 @@ import static org.junit.Assert.*;
 public class DomainIdTest {
 
     static class ExampleDomainId extends DomainId {
-
-        public ExampleDomainId(Long codExample) {
+        public ExampleDomainId(long codExample) {
             super(codExample);
         }
-
-        public static List<ExampleDomainId> converter(List<Long> codigosDosExamples) {
-            return DomainId.converter(codigosDosExamples, ExampleDomainId.class);
-        }
-
     }
 
     private static class ExampleFilhoDomainId extends ExampleDomainId {
@@ -36,30 +31,25 @@ public class DomainIdTest {
         }
     }
 
-    @Test(expected = NullPointerException.class)
-    public void null_long_throws_exception() {
-        new ExampleDomainId(null);
-    }
-
     @Test
-    public void conversaoDeLongsParaObjetos() {
+    public void mapFromLongsToIds() {
         // setup
         ExampleDomainId example11 = new ExampleDomainId(11L);
         ExampleDomainId example22 = new ExampleDomainId(22L);
         // execute
-        List<ExampleDomainId> exampleIds = ExampleDomainId.converter(asList(11L, 22L));
+        List<ExampleDomainId> exampleIds = DomainId.map(asList(11L, 22L), ExampleDomainId.class);
         // verify
         assertThat(exampleIds, contains(example11, example22));
     }
 
     @Test
-    public void conversaoDeObjetosParaLongs() {
+    public void mapFromIdsToLongs() {
         // setup
         long cod11 = 11L;
         long cod22 = 22L;
         List<ExampleDomainId> exampleIds = asList(new ExampleDomainId(cod11), new ExampleDomainId(cod22));
         // execute
-        List<Long> longs = DomainId.converterParaLongs(exampleIds);
+        List<Long> longs = DomainId.map(exampleIds);
         // verify
         assertThat(longs, contains(cod11, cod22));
     }
@@ -98,12 +88,12 @@ public class DomainIdTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void valor_zero_lanca_excecao() {
+    public void zero_value_throws_exception() {
         new ExampleDomainId(0L);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void valor_negativo_lanca_excecao() {
+    public void negative_value_throws_exception() {
         new ExampleDomainId(-1L);
     }
 
@@ -124,6 +114,24 @@ public class DomainIdTest {
         Object clone = exampleDomainId.clone();
         assertEquals(exampleDomainId, clone);
         assertEquals(clone, exampleDomainId);
+    }
+
+    static class DomainIdWithLongObjectConstructor extends DomainId {
+        public DomainIdWithLongObjectConstructor(Long codExample) {
+            super(codExample);
+        }
+    }
+
+    @Test
+    @SuppressWarnings("UnnecessaryBoxing")
+    public void long_object_constructor_works() {
+        Assertions.assertThat(new DomainIdWithLongObjectConstructor(112233L).toLong()).isEqualTo(112233L);
+        Assertions.assertThat(new DomainIdWithLongObjectConstructor(Long.valueOf(112233L)).toLong()).isEqualTo(112233L);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void null_long_throws_exception() {
+        new DomainIdWithLongObjectConstructor(null);
     }
 
 }

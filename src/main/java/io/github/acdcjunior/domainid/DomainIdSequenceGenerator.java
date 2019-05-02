@@ -28,7 +28,7 @@ public class DomainIdSequenceGenerator implements IdentifierGenerator, Configura
         try {
             Query query = session.createSQLQuery(consultaSequence).addScalar("cod", StandardBasicTypes.LONG);
             Long lon = (Long) query.uniqueResult();
-            return DomainId.instanciar(classeDoCampo, lon);
+            return DomainId.newInstance(classeDoCampo, lon);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao consultar sequence para obtencao do próximo ID. Query usada: " + consultaSequence, e);
         }
