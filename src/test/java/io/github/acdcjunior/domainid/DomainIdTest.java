@@ -43,6 +43,17 @@ public class DomainIdTest {
     }
 
     @Test
+    public void mapFromLongsToIds_varargs() {
+        // setup
+        ExampleDomainId example11 = new ExampleDomainId(11L);
+        ExampleDomainId example22 = new ExampleDomainId(22L);
+        // execute
+        List<ExampleDomainId> exampleIds = DomainId.map(ExampleDomainId.class, 11L, 22L);
+        // verify
+        assertThat(exampleIds, contains(example11, example22));
+    }
+
+    @Test
     public void mapFromIdsToLongs() {
         // setup
         long cod11 = 11L;
