@@ -1,61 +1,55 @@
 package io.github.acdcjunior.domainid;
 
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.util.List;
 
-import javax.persistence.Embeddable;
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.*;
 
-import org.junit.Test;
 
 @SuppressWarnings("WeakerAccess")
 public class DomainIdTest {
 
-    @Embeddable
-    static class ExemploDomainId extends DomainId {
+    static class ExampleDomainId extends DomainId {
 
-        public ExemploDomainId(Long codExemplo) {
-            super(codExemplo);
+        public ExampleDomainId(Long codExample) {
+            super(codExample);
         }
 
-        public static List<ExemploDomainId> converter(List<Long> codigosDosExemplos) {
-            return DomainId.converter(codigosDosExemplos, ExemploDomainId.class);
+        public static List<ExampleDomainId> converter(List<Long> codigosDosExamples) {
+            return DomainId.converter(codigosDosExamples, ExampleDomainId.class);
         }
 
     }
 
-    private static class ExemploFilhoDomainId extends ExemploDomainId {
-        public ExemploFilhoDomainId(Long codExemplo) {
-            super(codExemplo);
+    private static class ExampleFilhoDomainId extends ExampleDomainId {
+        public ExampleFilhoDomainId(Long codExample) {
+            super(codExample);
         }
     }
 
-    private static class ExemploNaoFilhoDomainId extends DomainId {
-        public ExemploNaoFilhoDomainId(Long codExemplo) {
-            super(codExemplo);
+    private static class ExampleNaoFilhoDomainId extends DomainId {
+        public ExampleNaoFilhoDomainId(Long codExample) {
+            super(codExample);
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void long_null_lanca_excecao() {
-        new ExemploDomainId(null);
+    @Test(expected = NullPointerException.class)
+    public void null_long_throws_exception() {
+        new ExampleDomainId(null);
     }
 
     @Test
     public void conversaoDeLongsParaObjetos() {
         // setup
-        ExemploDomainId exemplo11 = new ExemploDomainId(11L);
-        ExemploDomainId exemplo22 = new ExemploDomainId(22L);
+        ExampleDomainId example11 = new ExampleDomainId(11L);
+        ExampleDomainId example22 = new ExampleDomainId(22L);
         // execute
-        List<ExemploDomainId> exemploIds = ExemploDomainId.converter(asList(11L, 22L));
+        List<ExampleDomainId> exampleIds = ExampleDomainId.converter(asList(11L, 22L));
         // verify
-        assertThat(exemploIds, contains(exemplo11, exemplo22));
+        assertThat(exampleIds, contains(example11, example22));
     }
 
     @Test
@@ -63,24 +57,18 @@ public class DomainIdTest {
         // setup
         long cod11 = 11L;
         long cod22 = 22L;
-        List<ExemploDomainId> exemploIds = asList(new ExemploDomainId(cod11), new ExemploDomainId(cod22));
+        List<ExampleDomainId> exampleIds = asList(new ExampleDomainId(cod11), new ExampleDomainId(cod22));
         // execute
-        List<Long> longs = DomainId.converterParaLongs(exemploIds);
+        List<Long> longs = DomainId.converterParaLongs(exampleIds);
         // verify
         assertThat(longs, contains(cod11, cod22));
-    }
-
-    @Test
-    public void verificacaoIdAbstratoTestHelper() {
-        // este teste funciona como um teste da classe DomainIdTestHelper inteira
-        DomainIdTestHelper.verificarImplementacaoDeIdIdAtendeTodosRequisitosBasicos(ExemploDomainId.class);
     }
 
     @Test
     public void toString_retorna_id() {
         // execute
         long idLong = 123L;
-        ExemploDomainId id = new ExemploDomainId(idLong);
+        ExampleDomainId id = new ExampleDomainId(idLong);
         // verify
         assertEquals(idLong + "", id.toString());
     }
@@ -89,7 +77,7 @@ public class DomainIdTest {
     public void toLong_retorna_id_como_long() {
         // execute
         long idLong = 123L;
-        ExemploDomainId id = new ExemploDomainId(idLong);
+        ExampleDomainId id = new ExampleDomainId(idLong);
         // verify
         assertEquals(idLong, id.toLong());
     }
@@ -98,44 +86,44 @@ public class DomainIdTest {
     @Test
     public void equals_aceita_classes_filhas__mas_continua_sem_aceitar_nao_filhas() {
         // setup
-        ExemploDomainId exemploId = new ExemploDomainId(123L);
-        ExemploFilhoDomainId exemploFilhoId = new ExemploFilhoDomainId(123L);
-        ExemploNaoFilhoDomainId exemploNaoFilhoId = new ExemploNaoFilhoDomainId(123L);
+        ExampleDomainId exampleId = new ExampleDomainId(123L);
+        ExampleFilhoDomainId exampleFilhoId = new ExampleFilhoDomainId(123L);
+        ExampleNaoFilhoDomainId exampleNaoFilhoId = new ExampleNaoFilhoDomainId(123L);
 
         // execute/verify
-        assertTrue(exemploId.equals(exemploFilhoId));
-        assertTrue(exemploFilhoId.equals(exemploId));
+        assertTrue(exampleId.equals(exampleFilhoId));
+        assertTrue(exampleFilhoId.equals(exampleId));
         // noinspection EqualsBetweenInconvertibleTypes
-        assertFalse(exemploId.equals(exemploNaoFilhoId));
+        assertFalse(exampleId.equals(exampleNaoFilhoId));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void valor_zero_lanca_excecao() {
-        new ExemploDomainId(0L);
+        new ExampleDomainId(0L);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void valor_negativo_lanca_excecao() {
-        new ExemploDomainId(-1L);
+        new ExampleDomainId(-1L);
     }
 
     @Test
     public void comparable() {
-        ExemploDomainId exemploUm = new ExemploDomainId(111L);
-        ExemploDomainId exemploUmDeNovo = new ExemploDomainId(111L);
-        ExemploDomainId exemploDois = new ExemploDomainId(222L);
+        ExampleDomainId exampleUm = new ExampleDomainId(111L);
+        ExampleDomainId exampleUmDeNovo = new ExampleDomainId(111L);
+        ExampleDomainId exampleDois = new ExampleDomainId(222L);
         // execute/verify
-        assertEquals(-1, exemploUm.compareTo(exemploDois));
-        assertEquals(0, exemploUm.compareTo(exemploUmDeNovo));
-        assertEquals(1, exemploDois.compareTo(exemploUm));
+        assertEquals(-1, exampleUm.compareTo(exampleDois));
+        assertEquals(0, exampleUm.compareTo(exampleUmDeNovo));
+        assertEquals(1, exampleDois.compareTo(exampleUm));
     }
 
     @Test
     public void cloneable() throws CloneNotSupportedException {
-        ExemploDomainId exemploDomainId = new ExemploDomainId(111L);
-        Object clone = exemploDomainId.clone();
-        assertEquals(exemploDomainId, clone);
-        assertEquals(clone, exemploDomainId);
+        ExampleDomainId exampleDomainId = new ExampleDomainId(111L);
+        Object clone = exampleDomainId.clone();
+        assertEquals(exampleDomainId, clone);
+        assertEquals(clone, exampleDomainId);
     }
 
 }
