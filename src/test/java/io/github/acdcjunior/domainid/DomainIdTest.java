@@ -130,5 +130,13 @@ public class DomainIdTest {
         assertEquals(1, exemploDois.compareTo(exemploUm));
     }
 
+    @Test
+    public void cloneable() throws CloneNotSupportedException {
+        ExemploDomainId exemploDomainId = new ExemploDomainId(111L);
+        Object clone = exemploDomainId.clone();
+        assertEquals(exemploDomainId, clone);
+        assertEquals(clone, exemploDomainId);
+    }
+
 }
 
