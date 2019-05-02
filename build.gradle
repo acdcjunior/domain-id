@@ -11,24 +11,26 @@ repositories {
 }
 
 ext.springBootVersion = '2.1.4.RELEASE'
+ext.junitVersion = '5.4.2'
 
 dependencies {
-	implementation 'org.hibernate:hibernate-core:5.3.0.Final'
-
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
-	
+	implementation 'org.hibernate:hibernate-core:5.3.0.Final' // UserType and all
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5' // Serializer/Deserializer
 	compileOnly "org.springframework.boot:spring-boot:$springBootVersion" // @JsonComponent
 
 
-	testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
-
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+	
 	testImplementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-	testImplementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+//	testImplementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+//		exclude(group: 'junit', module: 'junit')
+	}
+}
 
-	testImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
-
-	// por ReflectionTestUtils
-	testImplementation group: 'org.springframework', name: 'spring-core', version: '5.0.6.RELEASE'
+test {
+	useJUnitPlatform()
 }
 
 wrapper {
