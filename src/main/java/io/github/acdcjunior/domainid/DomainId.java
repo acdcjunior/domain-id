@@ -6,6 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.String.format;
+
 
 @SuppressWarnings("WeakerAccess")
 public abstract class DomainId implements Comparable<DomainId>, Serializable, Cloneable {
@@ -21,44 +23,61 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
         this.id = id;
     }
 
-    public static <T extends DomainId> List<Long> converterParaLongs(List<T> objetosIds) {
-        List<Long> longs = new ArrayList<>(objetosIds.size());
-        for (T id : objetosIds) {
+    /**
+     * Converts a list of ids into a list of longs.
+     * @param ids The ids to be converted.
+     * @param <T> The id type.
+     * @return A list of the long values of the ids.
+     */
+    public static <T extends DomainId> List<Long> map(List<T> ids) {
+        List<Long> longs = new ArrayList<>(ids.size());
+        for (T id : ids) {
             longs.add(id.id);
         }
         return longs;
     }
 
     /**
-     * Converte uma lista de longs para uma lista do tipo ID passado.
+     * Converts a list of longs into a list of the given domain id type.
      *
-     * @param longs  Lista dos ids a serem convertidos.
-     * @param classe Classe de ID.
-     * @param <T>    Tipo da classe de ID.
-     * @return Lista de objetos da classe de ID relativos aos longs passados.
+     * @param longs Longs to be converted.
+     * @param domainIdClass The Domain ID class.
+     * @param <T>    Type of the Domain ID.
+     * @return List of domain ids corresponding to the supplied longs.
      */
-    @SuppressWarnings("SameParameterValue")
-    protected static <T extends DomainId> List<T> converter(List<Long> longs, Class<T> classe) {
+    public static <T extends DomainId> List<T> map(List<Long> longs, Class<T> domainIdClass) {
         List<T> ids = new ArrayList<>();
         for (Long id : longs) {
-            T novaInstancia = instanciar(classe, id);
-            ids.add(novaInstancia);
+            T domainId = newInstance(domainIdClass, id);
+            ids.add(domainId);
         }
         return ids;
     }
 
     @SuppressWarnings("unchecked")
-    protected static <T extends DomainId> T instanciar(Class<T> classe, Long id) {
+    public static <T extends DomainId> T newInstance(Class<T> domainIdClass, long id) {
         try {
-            Constructor<?> construtorComParametroLong = classe.getConstructor(Long.class);
-            return (T) construtorComParametroLong.newInstance(id);
-        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-            throw new IllegalArgumentException(String.format("Erro ao instanciar ID do tipo %s usando o argumento long %d.", classe.getSimpleName(), id), e);
+            Constructor<?> constructorWithLongArgument = getConstructorWithLongArgument(domainIdClass);
+            return (T) constructorWithLongArgument.newInstance(id);
+        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+            throw new IllegalArgumentException(format("Error while instantiating ID of type %s using the argument %d.", domainIdClass.getSimpleName(), id), e);
+        }
+    }
+
+    private static <T extends DomainId> Constructor<?> getConstructorWithLongArgument(Class<T> domainIdClass) {
+        try {
+            return domainIdClass.getConstructor(Long.TYPE);
+        } catch (NoSuchMethodException | SecurityException ignored) {
+            try {
+                return domainIdClass.getConstructor(Long.class);
+            } catch (NoSuchMethodException | SecurityException e) {
+                throw new IllegalArgumentException(format("Error while looking for a single-argument long/Long constructor in class %s. Did you declare one?",
+                        domainIdClass.getSimpleName()), e);
+            }
         }
     }
 
     @Override
-    @SuppressWarnings("all")
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -89,7 +108,7 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
 
     @Override
     public int compareTo(DomainId o) {
-        return Long.compare(this.toLong(), o.toLong());
+        return Long.compare(this.id, o.id);
     }
 
     @Override

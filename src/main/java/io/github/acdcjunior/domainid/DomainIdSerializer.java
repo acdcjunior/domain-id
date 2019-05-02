@@ -31,7 +31,7 @@ public class DomainIdSerializer {
             Long id = deserializationContext.readValue(jsonParser, Long.class);
             @SuppressWarnings("unchecked")
             Class<? extends DomainId> classeId = (Class<? extends DomainId>) handledType();
-            return DomainId.instanciar(classeId, id);
+            return DomainId.newInstance(classeId, id);
         }
 
     }

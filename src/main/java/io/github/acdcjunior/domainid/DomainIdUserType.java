@@ -30,7 +30,7 @@ public abstract class DomainIdUserType<T extends DomainId> implements UserType {
     public Object nullSafeGet(ResultSet rs, String[] columnNames, SharedSessionContractImplementor session, Object owner) throws SQLException {
         Long id = rs.getLong(columnNames[0]);
         if (id != 0) {
-            return DomainId.instanciar(clazz, id);
+            return DomainId.newInstance(clazz, id);
         }
         return null;
     }
