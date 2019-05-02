@@ -11,24 +11,25 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+
 public class DomainIdSerializerTest {
 
-    private static class ExemploId extends DomainId {
-        ExemploId(Long codExemplo) {
+    private static class ExampleDomainId extends DomainId {
+        ExampleDomainId(Long codExemplo) {
             super(codExemplo);
         }
     }
 
     @SuppressWarnings({"unused", "WeakerAccess"})
-    private static class ObjQualquerComId {
+    private static class SomeClassWithIdProperty {
         public int j = 1;
-        public ExemploId longo = new ExemploId(20L);
+        public ExampleDomainId longo = new ExampleDomainId(20L);
     }
 
     @Test
-    public void testarConversaoEmObjetosComIds() throws JsonProcessingException {
+    public void convertsObjectIntoJson() throws Exception {
         // setup
-        ObjQualquerComId objetoQualquer = new ObjQualquerComId();
+        SomeClassWithIdProperty objetoQualquer = new SomeClassWithIdProperty();
         // execute
         String objetoQualquerJson = ConversorJson.toJson(objetoQualquer);
         // verify
@@ -36,41 +37,41 @@ public class DomainIdSerializerTest {
     }
 
     @Test
-    public void testarConversaoJsonEmObjetos() throws IOException {
+    public void convertsJsonIntoObject() throws Exception {
         //setup
         String objetoQualquerJson = "{\"j\":999,\"longo\":555}";
         // execute
-        ObjQualquerComId objetoQualquerFinal = ConversorJson.fromJson(objetoQualquerJson, ObjQualquerComId.class);
+        SomeClassWithIdProperty objetoQualquerFinal = ConversorJson.fromJson(objetoQualquerJson, SomeClassWithIdProperty.class);
         // verify
         assertEquals(objetoQualquerFinal.j, 999);
-        assertEquals(objetoQualquerFinal.longo, new ExemploId(555L));
+        assertEquals(objetoQualquerFinal.longo, new ExampleDomainId(555L));
 
     }
 
     @SuppressWarnings("WeakerAccess")
     private static class Pessoa {
-        private final ExemploId id;
+        private final ExampleDomainId id;
         private final String nome;
-        public Pessoa(@JsonProperty("id") ExemploId id, @JsonProperty("nome") String nome) {
+        public Pessoa(@JsonProperty("id") ExampleDomainId id, @JsonProperty("nome") String nome) {
             this.nome = nome;
             this.id = id;
         }
         public String getNome() {
             return nome;
         }
-        public ExemploId getId() {
+        public ExampleDomainId getId() {
             return id;
         }
     }
 
     @Test
-    public void testarConversaoJsonEmObjetos_semGetterESetter() throws IOException {
+    public void convertsJsonIntoObject_withoutGetterAndSetter() throws Exception {
         //setup
         String objetoQualquerJson = "{\"id\":30,\"nome\":\"bozo\"}";
         // execute
         Pessoa objetoQualquerFinal = ConversorJson.fromJson(objetoQualquerJson, Pessoa.class);
         // verify
-        assertEquals(objetoQualquerFinal.getId(), new ExemploId(30L));
+        assertEquals(objetoQualquerFinal.getId(), new ExampleDomainId(30L));
         assertEquals(objetoQualquerFinal.getNome(), "bozo");
     }
 
