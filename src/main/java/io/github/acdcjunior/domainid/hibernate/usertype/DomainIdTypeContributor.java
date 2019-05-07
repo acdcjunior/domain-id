@@ -3,7 +3,6 @@ package io.github.acdcjunior.domainid.hibernate.usertype;
 import io.github.acdcjunior.domainid.DomainId;
 import org.hibernate.boot.model.TypeContributions;
 import org.hibernate.boot.model.TypeContributor;
-import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.service.ServiceRegistry;
 import org.jboss.logging.Logger;
