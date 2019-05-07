@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    platform: h2
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:domainid;MODE=Oracle
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none # IMPORTANT!!! otherwise Hibernate will overwrite it all, because the DB is H2 and the default os another mode
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
