@@ -28,6 +28,7 @@ public class DomainIdTypeContributor implements TypeContributor {
             DomainIdTypeContributor.class.getName()
     );
 
+    // TODO warn on duplicated classes on classpath
 	@Override
 	public void contribute(TypeContributions typeContributions, ServiceRegistry serviceRegistry) {
         long startTime = System.nanoTime();
