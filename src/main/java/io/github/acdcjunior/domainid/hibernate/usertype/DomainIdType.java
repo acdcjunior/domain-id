@@ -13,7 +13,7 @@ public class DomainIdType<T extends DomainId>
 
     private final Class<T> clazz;
 
-    public DomainIdType(Class<T> clazz) {
+    DomainIdType(Class<T> clazz) {
 		super( BigIntTypeDescriptor.INSTANCE, new DomainIdJavaDescriptor<>(clazz) );
 		this.clazz = clazz;
 	}
