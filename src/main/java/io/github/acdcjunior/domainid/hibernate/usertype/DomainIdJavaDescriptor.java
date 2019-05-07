@@ -11,7 +11,7 @@ public class DomainIdJavaDescriptor<T extends DomainId> extends AbstractTypeDesc
     private final Class<T> clazz;
 
     @SuppressWarnings("unchecked")
-    public DomainIdJavaDescriptor(Class<T> clazz) {
+    DomainIdJavaDescriptor(Class<T> clazz) {
         super(clazz, ImmutableMutabilityPlan.INSTANCE);
         this.clazz = clazz;
     }
