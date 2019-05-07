@@ -1,5 +1,6 @@
 package springbootdemoapp.domain.parent.child;
 
+import io.github.acdcjunior.domainid.HasDomainId;
 import io.github.acdcjunior.domainid.hibernate.sequence.DomainIdSequenceStyleGenerator;
 import org.hibernate.annotations.GenericGenerator;
 import springbootdemoapp.domain.parent.ParentId;
@@ -17,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
         strategy = DomainIdSequenceStyleGenerator.SEQUENCE,
         parameters = @org.hibernate.annotations.Parameter(name = "sequence_name", value = "MYDOMAINID.SEQ_CHILD")
 )
-public class Child implements Comparable<Child> {
+public class Child implements HasDomainId<ChildId> {
 
     @Id
     @GeneratedValue(generator = "SEQ_CHILD", strategy = GenerationType.SEQUENCE)
@@ -57,12 +58,6 @@ public class Child implements Comparable<Child> {
     }
     public void setGrandChildren(Set<GrandChild> grandChildren) {
         this.grandChildren = grandChildren;
-    }
-
-    @Override
-    public int compareTo(Child child) {
-        if (this.id == null || child == null) return 1;
-        return this.id.compareTo(child.id);
     }
 
 }
