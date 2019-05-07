@@ -18,7 +18,6 @@ class SpringBootDemoApplicationTest {
     private SomeBean someBean;
 
     @Test
-    @Sql
     void contextLoads() {
         assertThat(someBean.getSomething()).isEqualTo("something!");
     }
