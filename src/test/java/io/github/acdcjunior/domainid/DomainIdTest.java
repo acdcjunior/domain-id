@@ -3,7 +3,10 @@ package io.github.acdcjunior.domainid;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.contains;
@@ -143,6 +146,69 @@ public class DomainIdTest {
     @Test(expected = NullPointerException.class)
     public void null_long_throws_exception() {
         new DomainIdWithLongObjectConstructor(null);
+    }
+
+    @Test
+    public void compare() {
+        class MyEntity implements Comparable<MyEntity> {
+            ExampleDomainId id;
+            @Override
+            public int compareTo(MyEntity other) {
+                return DomainId.compare(this, other, (e) -> e.id);
+            }
+            @Override
+            public String toString() {
+                return "{"+id+"}";
+            }
+        }
+        MyEntity e1 = new MyEntity(); e1.id = new ExampleDomainId(1L);
+        MyEntity e12 = new MyEntity(); e12.id = e1.id;
+        MyEntity e2 = new MyEntity(); e2.id = new ExampleDomainId(2L);
+        MyEntity e3 = new MyEntity(); e3.id = new ExampleDomainId(3L);
+        MyEntity eN = new MyEntity(); eN.id = null;
+        MyEntity eN2 = new MyEntity(); eN2.id = null;
+
+        Set<MyEntity> entities = new TreeSet<>();
+        entities.add(e3);
+        entities.add(e1);
+        entities.add(eN);
+        entities.add(e2);
+        entities.add(eN2);
+        entities.add(e12);
+
+        System.out.println(entities);
+        Assertions.assertThat(entities).containsExactly(e1, e2, e3, eN, eN2);
+    }
+
+    @Test
+    public void comparator() {
+        class MyEntity {
+            ExampleDomainId id;
+            @Override
+            public String toString() {
+                return "{"+id+"}";
+            }
+        }
+        MyEntity e1 = new MyEntity(); e1.id = new ExampleDomainId(1L);
+        MyEntity e12 = new MyEntity(); e12.id = e1.id;
+        MyEntity e2 = new MyEntity(); e2.id = new ExampleDomainId(2L);
+        MyEntity e3 = new MyEntity(); e3.id = new ExampleDomainId(3L);
+        MyEntity eN = new MyEntity(); eN.id = null;
+        MyEntity eN2 = new MyEntity(); eN2.id = null;
+
+        List<MyEntity> entities = new ArrayList<>();
+        entities.add(e3);
+        entities.add(e1);
+        entities.add(eN);
+        entities.add(null);
+        entities.add(e2);
+        entities.add(eN2);
+        entities.add(null);
+        entities.add(e12);
+
+        entities.sort(DomainId.comparator(e -> e.id));
+
+        Assertions.assertThat(entities).containsExactly(e1, e12, e2, e3, eN, eN2, null, null);
     }
 
 }
