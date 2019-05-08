@@ -38,15 +38,15 @@ class ParentRepositoryTest {
         ParentId parentId = new ParentId(20001L);
         Parent parent = parentRepository.findById(parentId).get();
         assertThat(parent.getId()).isEqualTo(parentId);
-        assertThat(parent.getNome()).isEqualTo("O Náufrago");
+        assertThat(parent.getNome()).isEqualTo("Star Wars");
         assertThat(parent.getSibling()).isEqualTo(new SiblingId(11L));
 
         assertThat(parent.getChildren()).hasSize(2);
         List<Child> children = new ArrayList<>(parent.getChildren());
-        assertThat(children.get(0).getId()).isEqualTo(new ChildId(50001L));
+        assertThat(children.get(0).getId()).isEqualTo(new ChildId(50001));
         assertThat(children.get(0).getAnotherChild()).isEqualTo(null);
-        assertThat(children.get(1).getId()).isEqualTo(new ChildId(50002L));
-        assertThat(children.get(1).getAnotherChild()).isEqualTo(new ChildId(50001L));
+        assertThat(children.get(1).getId()).isEqualTo(new ChildId(50002));
+        assertThat(children.get(1).getAnotherChild()).isEqualTo(new ChildId(50001));
 
         assertThat(children.get(0).getGrandChildren()).hasSize(1);
         GrandChild firstGrandChild = children.get(0).getGrandChildren().iterator().next();
@@ -103,7 +103,7 @@ class ParentRepositoryTest {
             Child child = new Child();
             children.add(child);
             child.setName("1.1");
-            child.setAnotherChild(new ChildId(50001L));
+            child.setAnotherChild(new ChildId(50001));
 
             Set<GrandChild> grandChildren = new TreeSet<>();
             child.setGrandChildren(grandChildren);
@@ -126,10 +126,10 @@ class ParentRepositoryTest {
 
         assertThat(parent.getChildren()).hasSize(2);
         List<Child> children = new ArrayList<>(parent.getChildren());
-        assertThat(children.get(0).getId()).isEqualTo(new ChildId(50003L));
-        assertThat(children.get(0).getAnotherChild()).isEqualTo(new ChildId(50001L));
+        assertThat(children.get(0).getId()).isEqualTo(new ChildId(50003));
+        assertThat(children.get(0).getAnotherChild()).isEqualTo(new ChildId(50001));
         assertThat(children.get(0).getName()).isEqualTo("1.1");
-        assertThat(children.get(1).getId()).isEqualTo(new ChildId(50004L));
+        assertThat(children.get(1).getId()).isEqualTo(new ChildId(50004));
         assertThat(children.get(1).getName()).isEqualTo("1.2");
 
         assertThat(children.get(0).getGrandChildren()).hasSize(1);
