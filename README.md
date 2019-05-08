@@ -35,8 +35,10 @@ everything works via at least one runtime test.
 
 # Declaring
 
-In order to use an ID, you must declare some classes first. Basically, you'll declare the ID itself, the hibernate
-`UserType` and the Jackson serializer/deserializer, if needed.
+In order to use an ID, you must declare some classes first. Basically, you'll declare the ID and that's all.
+
+The hibernate `UserType` is automatically registered.
+The Jackson serializer/deserializer may be registered, if you'll need it.
 
 ### The ID class:
 
@@ -47,46 +49,13 @@ package com.myservice.domain.myentity;
 import io.github.acdcjunior.domainid.DomainId;
 
 public class MyEntityId extends DomainId {
-
-    public MyEntityId(Long id) {
+    public MyEntityId(long id) {
         super(id);
     }
-
 }
 ```
     
-### The `UserType` for the ID class:
-
-```java
-// src/main/java/com/myservice/infra/myentity/MyEntityIdType.java
-package com.myservice.infra.myentity;
-
-import com.myservice.domain.myentity.MyEntityId;
-import io.github.acdcjunior.domainid.DomainIdUserType;
-
-public class MyEntityIdType extends DomainIdUserType<MyEntityId> {
-
-    public MyEntityIdType() {
-        super(MyEntityId.class);
-    }
-
-}
-```
-
-and, at the (IMPORTANT) **`package-info.java`**:
-
-```java
-// src/main/java/com/myservice/infra/myentity/package-info.java
-@TypeDefs({
-    @TypeDef(name = "MyEntityIdType", typeClass = MyEntityIdType.class, defaultForType = MyEntityId.class)
-})
-package com.myservice.infra.myentity;
-
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-
-import com.myservice.domain.myentity.MyEntityId;
-```
+An hibernate `UserType` will be automatically registered for that ID class.
     
 #### Add, if desired, the Jackson serializer/deserializer
 
@@ -123,18 +92,22 @@ public class MyEntity {
 #### Using as `@Id` and auto-generated using a Sequence:
 
 ```java
-import javax.persistence.*;
+import io.github.acdcjunior.domainid.hibernate.sequence.DomainIdSequenceStyleGenerator;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import io.github.acdcjunior.domainid.DomainIdSequenceGenerator;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "MY_ENTITY", schema = "MYSERVICE")
 public class MyEntity {
 
     @Id
-    @GenericGenerator(name = "generator", strategy = DomainIdSequenceGenerator.STRATEGY, parameters = @Parameter(name = "sequence", value = "MYSERVICE.SEQ_EXEMPLO"))
-    @GeneratedValue(generator = "generator", strategy = GenerationType.SEQUENCE)
+    @GenericGenerator(
+            name = "SEQ_MY_ENTITY",
+            strategy = DomainIdSequenceStyleGenerator.SEQUENCE,
+            parameters = @org.hibernate.annotations.Parameter(name = "sequence_name", value = "MYSERVICE.SEQ_MY_ENTITY")
+    )
+    @GeneratedValue(generator = "SEQ_MY_ENTITY", strategy = GenerationType.SEQUENCE)
     @Column
     private MyEntityId id;
 ```
@@ -145,4 +118,4 @@ public class MyEntity {
 
 `@GenericGenerator` - Parameters:
 
-- `sequence`: Sequence's full name, including the schema/owner name. Example: `MY_SCHEMA.MY_ENTITY_SEQ`.
+- `sequence_name`: Sequence's full name, including the schema/owner name. Example: `MY_SCHEMA.MY_ENTITY_SEQ`.
