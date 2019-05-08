@@ -4,7 +4,7 @@ import io.github.acdcjunior.domainid.DomainId;
 
 
 public class ChildId extends DomainId {
-    public ChildId(Long id) {
+    public ChildId(long id) {
         super(id);
     }
 }
