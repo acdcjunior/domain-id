@@ -3,6 +3,7 @@ plugins {
 }
 
 group = 'io.github.acdcjunior'
+archivesBaseName = 'domain-id'
 version = '0.1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -38,3 +39,5 @@ wrapper {
     gradleVersion = '5.4.1'
     distributionType = Wrapper.DistributionType.ALL
 }
+
+apply from: "maven-central.gradle"
