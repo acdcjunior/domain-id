@@ -1,5 +1,6 @@
 package springbootdemoapp.domain.parent;
 
+import io.github.acdcjunior.domainid.DomainId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ class ParentRepositoryTest {
 
         assertThat(parent.getChildren()).hasSize(2);
         List<Child> children = new ArrayList<>(parent.getChildren());
+        children.sort(DomainId.comparator(Child::getId));
         assertThat(children.get(0).getId()).isEqualTo(new ChildId(50001));
         assertThat(children.get(0).getAnotherChild()).isEqualTo(null);
         assertThat(children.get(1).getId()).isEqualTo(new ChildId(50002));
