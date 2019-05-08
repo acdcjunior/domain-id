@@ -37,13 +37,10 @@ public class DomainIdTypeContributor implements TypeContributor {
 
         for (Class<? extends DomainId> type : types) {
             typeContributions.contributeType(new DomainIdType<>(type));
+            LOG.info("Registered UserType for ID class: " + type);
         }
 
-        LOG.info("Registered Id UserTypes: " + types);
-
-        for (int i = 0; i < 50; i++) {
-            LOG.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        }
+        LOG.info("Completed registering all found domain IDs.");
 	}
 
     private List<Class<? extends DomainId>> findMyTypes(String basePackage) {
