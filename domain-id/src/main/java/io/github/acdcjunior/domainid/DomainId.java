@@ -16,11 +16,11 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
 
     private static final long serialVersionUID = -1L;
 
-    protected long id;
+    protected final long id;
 
     protected DomainId(long id) {
-        if (id <= 0L) {
-            throw new IllegalArgumentException("The id should be greated than zero. Supplied: " + id);
+        if (id <= 0) {
+            throw new IllegalArgumentException("The id should be greater than zero. Supplied: " + id);
         }
         this.id = id;
     }
