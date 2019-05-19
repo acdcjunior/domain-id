@@ -3,10 +3,7 @@ package io.github.acdcjunior.domainid;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.contains;
@@ -154,7 +151,12 @@ public class DomainIdTest {
             ExampleDomainId id;
             @Override
             public int compareTo(MyEntity other) {
-                return DomainId.compare(this, other, (e) -> e.id);
+                return DomainId.compare(this, other, new IdGetter<MyEntity, DomainId>() {
+                    @Override
+                    public DomainId getId(MyEntity e) {
+                        return e.id;
+                    }
+                });
             }
             @Override
             public String toString() {
@@ -176,7 +178,6 @@ public class DomainIdTest {
         entities.add(eN2);
         entities.add(e12);
 
-        System.out.println(entities);
         Assertions.assertThat(entities).containsExactly(e1, e2, e3, eN, eN2);
     }
 
@@ -206,7 +207,12 @@ public class DomainIdTest {
         entities.add(null);
         entities.add(e12);
 
-        entities.sort(DomainId.comparator(e -> e.id));
+        Collections.sort(entities, DomainId.comparator(new IdGetter<MyEntity, DomainId>() {
+            @Override
+            public DomainId getId(MyEntity e) {
+                return e.id;
+            }
+        }));
 
         Assertions.assertThat(entities).containsExactly(e1, e12, e2, e3, eN, eN2, null, null);
     }
