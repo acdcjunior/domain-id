@@ -29,7 +29,7 @@ import static java.lang.String.format;
 @SuppressWarnings("WeakerAccess")
 public abstract class DomainId implements Comparable<DomainId>, Serializable, Cloneable {
 
-    private static final long serialVersionUID = -1L;
+    private static final long serialVersionUID = 100L;
 
     protected final long id;
 
@@ -38,6 +38,14 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
             throw new IllegalArgumentException("The id should be greater than zero. Supplied: " + id);
         }
         this.id = id;
+    }
+
+    /**
+     * Converts the ID to its {@code long} value.
+     * @return The ID value.
+     */
+    public long toLong() {
+        return id;
     }
 
     /**
@@ -87,6 +95,15 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
         return map(longsList, domainIdClass);
     }
 
+    /**
+     * <p>Creates a new instance of a Domain ID of the specified class.</p>
+     * This method searches for a constructor of a single {@code long} (or {@code java.lang.Long}) argument in the specified ID class.
+     * If none is found, an exception is thrown.
+     * @param domainIdClass The ID class to be instantiated.
+     * @param id The ID value.
+     * @param <T> The ID class type.
+     * @return An instance of the given ID class with the given id value.
+     */
     @SuppressWarnings("unchecked")
     public static <T extends DomainId> T newInstance(Class<T> domainIdClass, long id) {
         try {
@@ -184,10 +201,6 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
     @Override
     public String toString() {
         return Long.toString(id);
-    }
-
-    public long toLong() {
-        return id;
     }
 
     @Override
