@@ -26,6 +26,47 @@ import java.util.List;
 import static java.lang.String.format;
 
 
+/**
+ * <p>This class provides the base logic for implementation of <strong>Domain IDs</strong>.</p>
+ * <br>
+ * <p>Domain IDs are Value Objects used to hold the identity value of Aggregate Roots.</p>
+ *
+ * <p>They aid the application of the
+ * <strong><a href="http://www.informit.com/articles/article.aspx?p=2020371&seqNum=4">DDD Rule: "REFERENCE OTHER
+ * AGGREGATES BY IDENTITY"</a></strong>, and bring some advantages:</p>
+ *
+ * <ul>
+ *     <li>Leverage the language type system to make IDs unambiguous throughout all the code (specially making method
+ *     signatures clearer)</li>
+ *     <li>Help the identification of Aggregate Roots in the system (since the only entities that have IDs are aggregate
+ *     roots)</li>
+ *     <li>Help enforcing the consistency boundary of an aggregate, that is, it makes more difficult for two aggregates
+ *     be modified in a single transaction by accident (something that shouldn't happen without very good reasons) since
+ *     an aggregate will not hold a reference to another (just the id)</li>
+ *     <li>Keep aggregates automatically smaller because references are never eagerly loaded. They load faster and
+ *     consume less memory.</li>
+ * </ul>
+ *
+ * <p>This class should be used as base for all ID classes. Also as an utilities class for common operations on IDs,
+ * such as converting list of {@code long}s into list of IDs (e.g. {@link DomainId#map(Class, long...)}).</p>
+ *
+ * <p>Example ID class:</p>
+ * <pre><code>
+ * // src/main/java/com/myservice/domain/myagreggate/MyAggregateRootEntityId.java
+ * package com.myservice.domain.myagreggate;
+ *
+ * import io.github.acdcjunior.domainid.DomainId;
+ *
+ * public class MyAggregateRootEntityId extends DomainId {
+ *     public MyAggregateRootEntityId(long id) {
+ *         super(id);
+ *     }
+ * }
+ * </code></pre>
+ *
+ * @author acdcjunior
+ * @since 1.0.0
+ */
 @SuppressWarnings("WeakerAccess")
 public abstract class DomainId implements Comparable<DomainId>, Serializable, Cloneable {
 
