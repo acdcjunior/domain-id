@@ -19,14 +19,14 @@ public class DomainIdTest {
         }
     }
 
-    private static class ExampleFilhoDomainId extends ExampleDomainId {
-        public ExampleFilhoDomainId(Long codExample) {
+    private static class ExampleChildDomainId extends ExampleDomainId {
+        public ExampleChildDomainId(Long codExample) {
             super(codExample);
         }
     }
 
-    private static class ExampleNaoFilhoDomainId extends DomainId {
-        public ExampleNaoFilhoDomainId(Long codExample) {
+    private static class ExampleNonChildDomainId extends DomainId {
+        public ExampleNonChildDomainId(Long codExample) {
             super(codExample);
         }
     }
@@ -66,7 +66,7 @@ public class DomainIdTest {
     }
 
     @Test
-    public void toString_retorna_id() {
+    public void toString_returns_id_as_string() {
         // execute
         long idLong = 123L;
         ExampleDomainId id = new ExampleDomainId(idLong);
@@ -75,7 +75,7 @@ public class DomainIdTest {
     }
 
     @Test
-    public void toLong_retorna_id_como_long() {
+    public void toLong_returns_id_as_long() {
         // execute
         long idLong = 123L;
         ExampleDomainId id = new ExampleDomainId(idLong);
@@ -85,17 +85,17 @@ public class DomainIdTest {
 
     @SuppressWarnings("SimplifiableJUnitAssertion")
     @Test
-    public void equals_aceita_classes_filhas__mas_continua_sem_aceitar_nao_filhas() {
+    public void equals_takes_child_classes__mas_doesnt_take_non_child() {
         // setup
         ExampleDomainId exampleId = new ExampleDomainId(123L);
-        ExampleFilhoDomainId exampleFilhoId = new ExampleFilhoDomainId(123L);
-        ExampleNaoFilhoDomainId exampleNaoFilhoId = new ExampleNaoFilhoDomainId(123L);
+        ExampleChildDomainId exampleChildId = new ExampleChildDomainId(123L);
+        ExampleNonChildDomainId exampleNonChildId = new ExampleNonChildDomainId(123L);
 
         // execute/verify
-        assertTrue(exampleId.equals(exampleFilhoId));
-        assertTrue(exampleFilhoId.equals(exampleId));
+        assertTrue(exampleId.equals(exampleChildId));
+        assertTrue(exampleChildId.equals(exampleId));
         // noinspection EqualsBetweenInconvertibleTypes
-        assertFalse(exampleId.equals(exampleNaoFilhoId));
+        assertFalse(exampleId.equals(exampleNonChildId));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -110,13 +110,13 @@ public class DomainIdTest {
 
     @Test
     public void comparable() {
-        ExampleDomainId exampleUm = new ExampleDomainId(111L);
-        ExampleDomainId exampleUmDeNovo = new ExampleDomainId(111L);
-        ExampleDomainId exampleDois = new ExampleDomainId(222L);
+        ExampleDomainId exampleOne = new ExampleDomainId(111L);
+        ExampleDomainId exampleOneAgain = new ExampleDomainId(111L);
+        ExampleDomainId exampleTwo = new ExampleDomainId(222L);
         // execute/verify
-        assertEquals(-1, exampleUm.compareTo(exampleDois));
-        assertEquals(0, exampleUm.compareTo(exampleUmDeNovo));
-        assertEquals(1, exampleDois.compareTo(exampleUm));
+        assertEquals(-1, exampleOne.compareTo(exampleTwo));
+        assertEquals(0, exampleOne.compareTo(exampleOneAgain));
+        assertEquals(1, exampleTwo.compareTo(exampleOne));
     }
 
     @Test
