@@ -12,4 +12,3 @@ https://github.com/hibernate/hibernate-orm/tree/master/hibernate-envers/src/main
 Como registrou o uuid2 generator:
 
 https://github.com/hibernate/hibernate-orm/blob/e5dc635a52362f69b69acb8d5b166b69b165dbbd/hibernate-core/src/main/java/org/hibernate/id/factory/internal/DefaultIdentifierGeneratorFactory.java
-
