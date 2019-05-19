@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 
 import static java.lang.String.format;
 
@@ -102,25 +101,25 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
      * are always considered different from each other.
      * @param thisE First instance to compare.
      * @param thatE Second instance to compare.
-     * @param getter Function that returns the {@link DomainId} field's value for a given entity.
+     * @param getter IdGetter that returns the {@link DomainId} field's value for a given entity.
      * @param <E> The entity type.
      * @param <T> The {@link DomainId} type.
      * @return a negative integer, zero, or a positive integer as the
      *         first argument's ID is less than, equal to, or greater than the
      *         second argument's ID.
      */
-    public static <E, T extends DomainId> int compare(E thisE, E thatE, Function<E, T> getter) {
+    public static <E, T extends DomainId> int compare(E thisE, E thatE, IdGetter<E, T> getter) {
         if (thisE == null) {
             return 1;
         }
         if (thatE == null) {
             return -1;
         }
-        T thisId = getter.apply(thisE);
+        T thisId = getter.getId(thisE);
         if (thisId == null) {
             return 1;
         }
-        T thatId = getter.apply(thatE);
+        T thatId = getter.getId(thatE);
         if (thatId == null) {
             return -1;
         }
@@ -130,15 +129,20 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
     /**
      * <p>Creates a comparator for two given entities that have an ID field returned by the provided getter function.</p>
      * <br>
-     * <b>Note:</b> the returned comparator is based on the {@link DomainId#compare(Object, Object, Function)} function.
+     * <b>Note:</b> the returned comparator is based on the {@link DomainId#compare(Object, Object, IdGetter)} function.
      * See its docs for more details.
-     * @param getter Function that returns the {@link DomainId} field's value for a given entity.
+     * @param getter IdGetter that returns the {@link DomainId} field's value for a given entity.
      * @param <E> The entity type.
      * @param <T> The {@link DomainId} type.
      * @return A comparator instance.
      */
-    public static <E, T extends DomainId> Comparator<E> comparator(Function<E, T> getter) {
-        return (o1, o2) -> DomainId.compare(o1, o2, getter);
+    public static <E, T extends DomainId> Comparator<E> comparator(final IdGetter<E, T> getter) {
+        return new Comparator<E>() {
+            @Override
+            public int compare(E o1, E o2) {
+                return DomainId.compare(o1, o2, getter);
+            }
+        };
     }
 
     @Override
