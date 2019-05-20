@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 @JsonComponent
 @SuppressWarnings("WeakerAccess")
-public class DomainIdSerializer {
+public class DomainIdJacksonSerializer {
 
     public static class DomainIdJsonSerializer extends JsonSerializer<DomainId> {
 
@@ -30,8 +30,8 @@ public class DomainIdSerializer {
         public DomainId deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
             Long id = deserializationContext.readValue(jsonParser, Long.class);
             @SuppressWarnings("unchecked")
-            Class<? extends DomainId> classeId = (Class<? extends DomainId>) handledType();
-            return DomainId.newInstance(classeId, id);
+            Class<? extends DomainId> idClass = (Class<? extends DomainId>) handledType();
+            return DomainId.newInstance(idClass, id);
         }
 
     }
