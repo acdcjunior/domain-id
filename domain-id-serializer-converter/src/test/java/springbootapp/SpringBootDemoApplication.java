@@ -1,15 +1,14 @@
 package springbootapp;
 
-import io.github.acdcjunior.domainid.DomainIdJacksonSerializer;
-import io.github.acdcjunior.domainid.StringToDomainIdConverterFactory;
+import io.github.acdcjunior.domainid.DomainIdsSerializersAndConverters;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 
 @SpringBootApplication(
         scanBasePackageClasses = {
                 ExampleController.class,
-                DomainIdJacksonSerializer.class,
-                StringToDomainIdConverterFactory.class
+                DomainIdsSerializersAndConverters.class
         }
 )
 public class SpringBootDemoApplication {
