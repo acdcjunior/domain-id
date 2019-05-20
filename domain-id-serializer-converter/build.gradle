@@ -27,7 +27,7 @@ dependencies {
 	
 	testImplementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
-//		exclude(group: 'junit', module: 'junit')
+		exclude(group: 'junit', module: 'junit')
 	}
 }
 
