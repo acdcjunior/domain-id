@@ -32,10 +32,10 @@ uploadArchives {
             }
 
             pom.project {
-                name 'Domain ID'
+                name 'Domain IDs Serializers and Converters'
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'Jackson Serializer and Deserializer for Domain IDs.'
+                description 'Jackson Serializers and Spring Converters for Domain IDs.'
                 url 'https://github.com/acdcjunior/domain-id'
 
                 scm {
