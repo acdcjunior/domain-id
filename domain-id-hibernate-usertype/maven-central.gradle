@@ -32,10 +32,10 @@ uploadArchives {
             }
 
             pom.project {
-                name 'Domain ID'
+                name 'Domain ID Hibernate UserType'
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'Hibernate UserType for Domain IDs.'
+                description 'Automatic Hibernate UserType registration for Domain IDs.'
                 url 'https://github.com/acdcjunior/domain-id'
 
                 scm {
