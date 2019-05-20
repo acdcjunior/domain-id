@@ -18,6 +18,6 @@ package io.github.acdcjunior.domainid;
  * It also registers the {@link org.springframework.core.convert.converter.ConverterFactory} that will automatically
  * create {@link org.springframework.core.convert.converter.Converter}s for each Domain ID classes the app has.</p>
  */
-@SuppressWarnings({"JavadocReference", "unused"})
+@SuppressWarnings("unused")
 public class DomainIdsSerializersAndConverters {
 }
