@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.acdcjunior'
-archivesBaseName = 'domain-id-jackson-serializer'
+archivesBaseName = 'domain-id-serializer-converter'
 version = '0.1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 

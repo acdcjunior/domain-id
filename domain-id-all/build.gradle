@@ -59,7 +59,7 @@ publishing {
 						}
 						dependency {
 							groupId 'io.github.acdcjunior'
-							artifactId 'domain-id-jackson-serializer'
+							artifactId 'domain-id-serializer-converter'
 							version '0.1.0-SNAPSHOT'
 						}
 					}
