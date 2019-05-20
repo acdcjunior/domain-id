@@ -4,15 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import org.junit.Test;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.junit.jupiter.api.Test;
 
 
-public class DomainIdJacksonSerializerTest {
+class DomainIdJacksonSerializerTest {
 
     private static class ExampleDomainId extends DomainId {
         ExampleDomainId(long id) {
@@ -27,7 +26,7 @@ public class DomainIdJacksonSerializerTest {
     }
 
     @Test
-    public void convertsObjectIntoJson() throws Exception {
+    void convertsObjectIntoJson() throws Exception {
         // setup
         SomeClassWithIdProperty someObject = new SomeClassWithIdProperty();
         // execute
@@ -37,7 +36,7 @@ public class DomainIdJacksonSerializerTest {
     }
 
     @Test
-    public void convertsJsonIntoObject() throws Exception {
+    void convertsJsonIntoObject() throws Exception {
         //setup
         String someObjectJson = "{\"j\":999,\"idObject\":555}";
         // execute
@@ -65,7 +64,7 @@ public class DomainIdJacksonSerializerTest {
     }
 
     @Test
-    public void convertsJsonIntoObject_withoutGetterAndSetter() throws Exception {
+    void convertsJsonIntoObject_withoutGetterAndSetter() throws Exception {
         //setup
         String jsonObject = "{\"id\":30,\"name\":\"bozo\"}";
         // execute
