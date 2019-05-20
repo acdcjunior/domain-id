@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.acdcjunior'
-archivesBaseName = 'domain-id'
+archivesBaseName = 'domain-id-hibernate-usertype'
 version = '0.1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
