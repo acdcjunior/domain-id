@@ -4,7 +4,7 @@ plugins {
 
 group = 'io.github.acdcjunior'
 archivesBaseName = 'domain-id-serializer-converter'
-version = '0.1.0-SNAPSHOT'
+version = '0.1.0'
 sourceCompatibility = 1.8
 
 repositories {
@@ -13,12 +13,14 @@ repositories {
 }
 
 ext.springBootVersion = '2.1.5.RELEASE'
+ext.springWebMvcVersion = '5.1.7.RELEASE'
+ext.jacksonDataBindVersion = '2.9.8'
 ext.junitVersion = '5.4.2'
 
 dependencies {
 	implementation 'io.github.acdcjunior:domain-id:1.0.0'
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5' // Serializer/Deserializer
-	implementation 'org.springframework:spring-webmvc:5.1.7.RELEASE' // Converter
+	implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonDataBindVersion" // Serializer/Deserializer
+	implementation "org.springframework:spring-webmvc:$springWebMvcVersion" // Converter/ConverterFactory
 	compileOnly "org.springframework.boot:spring-boot:$springBootVersion" // @JsonComponent
 
 
