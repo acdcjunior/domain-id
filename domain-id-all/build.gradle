@@ -1,0 +1,79 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+publishing {
+	repositories {
+		maven {
+			def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+			def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+			url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+			credentials {
+				username ossrhUsername
+				password ossrhPassword
+			}
+		}
+	}
+
+	publications {
+		maven(MavenPublication) {
+			groupId = 'io.github.acdcjunior'
+			artifactId = 'domain-id-all'
+			version = '0.1.0-SNAPSHOT'
+
+			pom.withXml {
+				asNode().children().last() + {
+					resolveStrategy = Closure.DELEGATE_FIRST
+
+					name 'Domain ID (All Libs)'
+					description 'An implementation of Domain IDs, with Jackson De/Serializers and Hibernate UserTypes.'
+					url 'https://github.com/acdcjunior/domain-id'
+
+					licenses {
+						license {
+							name 'The Apache License, Version 2.0'
+							url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+						}
+					}
+					scm {
+						connection 'scm:git:git@github.com:acdcjunior/domain-id.git'
+						developerConnection 'scm:git:git@github.com:acdcjunior/domain-id.git'
+						url 'git@github.com:acdcjunior/domain-id.git'
+					}
+					developers {
+						developer {
+							id 'acdcjunior'
+							name 'Antonio "acdc" Jr.'
+							email 'acdcjunior@gmail.com'
+						}
+					}
+					dependencies {
+						dependency {
+							groupId 'io.github.acdcjunior'
+							artifactId 'domain-id'
+							version '1.0.0'
+						}
+						dependency {
+							groupId 'io.github.acdcjunior'
+							artifactId 'domain-id-hibernate-usertype'
+							version '0.1.0-SNAPSHOT'
+						}
+						dependency {
+							groupId 'io.github.acdcjunior'
+							artifactId 'domain-id-jackson-serializer'
+							version '0.1.0-SNAPSHOT'
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+signing {
+	sign publishing.publications.maven
+}
+
+wrapper {
+	gradleVersion = '5.4.1'
+	distributionType = Wrapper.DistributionType.ALL
+}
