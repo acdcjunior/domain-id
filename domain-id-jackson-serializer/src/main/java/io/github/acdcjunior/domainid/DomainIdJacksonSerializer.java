@@ -11,8 +11,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
+
 @JsonComponent
-@SuppressWarnings("WeakerAccess")
 public class DomainIdJacksonSerializer {
 
     public static class DomainIdJsonSerializer extends JsonSerializer<DomainId> {

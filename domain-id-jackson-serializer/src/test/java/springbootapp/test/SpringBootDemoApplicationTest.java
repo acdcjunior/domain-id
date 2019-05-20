@@ -35,7 +35,7 @@ class SpringBootDemoApplicationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+        HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
         ExampleResource response = restTemplate.postForObject("/example-post", entity, ExampleResource.class);
         System.out.println(response);
         assertThat(response.getId()).isEqualTo(new ExampleResourceId(123));
