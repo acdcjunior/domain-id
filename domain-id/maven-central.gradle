@@ -35,7 +35,7 @@ uploadArchives {
                 name 'Domain ID'
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'An implementation of Domain IDs, with Jackson De/Serializers and Hibernate UserTypes.'
+                description 'An implementation of Domain IDs.'
                 url 'https://github.com/acdcjunior/domain-id'
 
                 scm {
