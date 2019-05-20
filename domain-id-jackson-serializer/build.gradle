@@ -16,7 +16,7 @@ ext.springBootVersion = '2.1.4.RELEASE'
 ext.junitVersion = '5.4.2'
 
 dependencies {
-	implementation 'io.github.acdcjunior:domain-id:0.1.0-SNAPSHOT'
+	implementation 'io.github.acdcjunior:domain-id:1.0.0'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5' // Serializer/Deserializer
 	compileOnly "org.springframework.boot:spring-boot:$springBootVersion" // @JsonComponent
 
