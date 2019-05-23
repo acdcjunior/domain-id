@@ -18,14 +18,14 @@ publishing {
 		maven(MavenPublication) {
 			groupId = 'io.github.acdcjunior'
 			artifactId = 'domain-id-all'
-			version = '0.1.0-SNAPSHOT'
+			version = '0.1.0'
 
 			pom.withXml {
 				asNode().children().last() + {
 					resolveStrategy = Closure.DELEGATE_FIRST
 
 					name 'Domain ID (All Libs)'
-					description 'An implementation of Domain IDs, with Jackson De/Serializers and Hibernate UserTypes.'
+					description 'An implementation of Domain IDs, with Jackson De/Serializers, Spring Converters and Hibernate UserTypes.'
 					url 'https://github.com/acdcjunior/domain-id'
 
 					licenses {
@@ -55,12 +55,12 @@ publishing {
 						dependency {
 							groupId 'io.github.acdcjunior'
 							artifactId 'domain-id-hibernate-usertype'
-							version '0.1.0-SNAPSHOT'
+							version '0.1.0'
 						}
 						dependency {
 							groupId 'io.github.acdcjunior'
 							artifactId 'domain-id-serializer-converter'
-							version '0.1.0-SNAPSHOT'
+							version '0.1.0'
 						}
 					}
 				}
