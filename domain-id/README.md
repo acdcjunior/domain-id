@@ -1,5 +1,3 @@
-# NOTE: NOT COMPLETED YET, BUT SOON.
-
 # domain-id
 
 An implementation for Domain IDs, as suggested by Implementing Domain Driven Design.
@@ -14,14 +12,14 @@ Importing:
 
 ```groovy
 dependencies {
-    implementation('io.github.acdcjunior:domain-id:?.?.?')
+    implementation('io.github.acdcjunior:domain-id-all:0.1.0')
 ```
 ```xml
 <dependencies>
 	<dependency>
 		<groupId>io.github.acdcjunior</groupId>
-		<artifactId>domain-id</artifactId>
-		<version>?.?.?</version>
+		<artifactId>domain-id-all</artifactId>
+		<version>0.1.0</version>
 	</dependency>
 ```
 
