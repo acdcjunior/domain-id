@@ -24,9 +24,10 @@ class DomainIdJacksonSerializerJsonTest {
         ExampleResource exampleResource = new ExampleResource();
         exampleResource.setId(new ExampleResourceId(123));
         exampleResource.setName("Bozo");
+        exampleResource.setOtherResource(new ExampleResourceId(4444));
         String json = objectMapper.writeValueAsString(exampleResource);
 
-        assertEquals("{\"id\":123,\"name\":\"Bozo\"}", json);
+        assertEquals("{\"id\":123,\"name\":\"Bozo\",\"otherResource\":4444}", json);
     }
 
     @Test
