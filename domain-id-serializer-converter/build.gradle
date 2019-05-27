@@ -26,7 +26,8 @@ dependencies {
 
 	testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
 	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
-	
+
+	implementation "org.springframework.boot:spring-boot-autoconfigure:$springBootVersion"
 	testImplementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 		exclude(group: 'junit', module: 'junit')

@@ -83,7 +83,7 @@ class JsonConverter {
         ObjectMapper objectMapper = new ObjectMapper();
 
         SimpleModule module = new SimpleModule();
-        module.addSerializer(DomainId.class, new DomainIdJacksonSerializer.DomainIdJsonSerializer());
+        module.addSerializer(DomainId.class, new DomainIdJacksonSerializer.DomainIdJsonSerializer(null));
         module.addDeserializer(DomainId.class, new DomainIdJacksonSerializer.DomainIdJsonDeserializer());
         objectMapper.registerModule(module);
         return objectMapper;
