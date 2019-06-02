@@ -1,8 +1,9 @@
 package io.github.acdcjunior.domainid;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.BeanProperty;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonComponent;
@@ -12,12 +13,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 @JsonComponent
 @Component
 public class DomainIdJsonSerializer extends JsonSerializer<DomainId> implements ContextualSerializer {
+
+    static final List<String> UNWRAPPED_ID_FIELDS = Arrays.asList("id", "cod");
 
     private RequiredPlaceholderResolver environment = (s) -> s;
 
@@ -45,7 +49,7 @@ public class DomainIdJsonSerializer extends JsonSerializer<DomainId> implements 
             return this;
         }
         String href = environment.resolveRequiredPlaceholders(linkedDomainId.value());
-        if (Arrays.asList("id", "cod").contains(property.getName())) {
+        if (UNWRAPPED_ID_FIELDS.contains(property.getName())) {
             return new DomainIdAsObjectSerializers.UnwrappedDomainIdSerializer(href);
         }
         return new DomainIdAsObjectSerializers.WrappedDomainIdSerializer(href);
