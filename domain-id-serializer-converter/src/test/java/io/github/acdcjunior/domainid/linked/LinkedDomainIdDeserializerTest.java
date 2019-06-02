@@ -1,9 +1,12 @@
-package io.github.acdcjunior.domainid;
+package io.github.acdcjunior.domainid.linked;
 
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import io.github.acdcjunior.domainid.DomainId;
+import io.github.acdcjunior.domainid.linked.LinkedDomainId;
+import io.github.acdcjunior.domainid.linked.LinkedDomainIdDeserializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -177,7 +180,7 @@ class AaaLinkedId extends DomainId {
     }
 }
 
-class AaaLinkedIdDeserializer extends LinkedDomainIdDeserializer<AaaLinkedId>  {
+class AaaLinkedIdDeserializer extends LinkedDomainIdDeserializer<AaaLinkedId> {
     public AaaLinkedIdDeserializer() {
         super(AaaLinkedId.class);
     }

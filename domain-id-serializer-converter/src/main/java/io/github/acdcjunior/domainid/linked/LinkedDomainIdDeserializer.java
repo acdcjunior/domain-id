@@ -1,9 +1,11 @@
-package io.github.acdcjunior.domainid;
+package io.github.acdcjunior.domainid.linked;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import io.github.acdcjunior.domainid.DomainId;
+import io.github.acdcjunior.domainid.DomainIdJsonSerializer;
 
 import java.io.IOException;
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import io.github.acdcjunior.domainid.linked.LinkedDomainId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.core.env.Environment;
@@ -21,7 +22,7 @@ import java.util.Map;
 @Component
 public class DomainIdJsonSerializer extends JsonSerializer<DomainId> implements ContextualSerializer {
 
-    static final List<String> UNWRAPPED_ID_FIELDS = Arrays.asList("id", "cod");
+    public static final List<String> UNWRAPPED_ID_FIELDS = Arrays.asList("id", "cod");
 
     private RequiredPlaceholderResolver environment = (s) -> s;
 
