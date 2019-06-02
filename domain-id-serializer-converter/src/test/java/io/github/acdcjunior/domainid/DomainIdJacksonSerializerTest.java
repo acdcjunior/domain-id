@@ -1,8 +1,6 @@
 package io.github.acdcjunior.domainid;
 
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +9,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -48,7 +48,6 @@ class DomainIdJacksonSerializerTest {
         // verify
         assertEquals(someObjectJsonDeSerialized.j, 999);
         assertEquals(someObjectJsonDeSerialized.idObject, new ExampleDomainId(555L));
-
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -94,9 +93,8 @@ class DomainIdJacksonSerializerTest {
     }
 
     @Nested
-    @DisplayName("Linked Domain ID")
-    class WhenNew {
-
+    @DisplayName("Linked Domain ID serialization")
+    class LinkedDomainIdSerialization {
 
         @Test
         void convertsObjectIntoJson() throws Exception {
@@ -105,7 +103,8 @@ class DomainIdJacksonSerializerTest {
             // execute
             String someObjectJson = JsonConverter.toJson(someObject);
             // verify
-            Assertions.assertThat(someObjectJson).isEqualToIgnoringWhitespace("{\n" +
+            Assertions.assertThat(someObjectJson).isEqualToIgnoringWhitespace(
+                    "{\n" +
                     "  \"j\":1,\n" +
                     "  \"otherId\":11,\n" +
                     "  \"id\":22,\n" +
@@ -114,7 +113,8 @@ class DomainIdJacksonSerializerTest {
                     "    \"id\":33,\n" +
                     "    \"_links\":{\"self\":{\"href\":\"http://example.com/linked/33\"}}\n" +
                     "  }\n" +
-                    "}");
+                    "}"
+            );
         }
 
         @Test
