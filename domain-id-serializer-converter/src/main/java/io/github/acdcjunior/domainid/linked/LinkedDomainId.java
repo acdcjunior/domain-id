@@ -1,4 +1,4 @@
-package io.github.acdcjunior.domainid;
+package io.github.acdcjunior.domainid.linked;
 
 import java.lang.annotation.*;
 

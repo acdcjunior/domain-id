@@ -1,7 +1,7 @@
 package springbootapp.linkeddomainid;
 
 import io.github.acdcjunior.domainid.DomainId;
-import io.github.acdcjunior.domainid.LinkedDomainId;
+import io.github.acdcjunior.domainid.linked.LinkedDomainId;
 
 
 @LinkedDomainId("${my.exampleresource.baseUrl}api/resources/#")
