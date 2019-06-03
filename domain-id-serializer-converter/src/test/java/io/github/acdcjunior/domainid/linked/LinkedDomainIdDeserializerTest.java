@@ -67,6 +67,15 @@ public class LinkedDomainIdDeserializerTest {
                     "\"_links\":{\"self\":{\"href\":\"http://some.com/linked/878\"}},\n" +
                     "\"street\":\"street-value\"" +
                     "}");
+            //language=JSON
+            verifyDeserialization("{" +
+                    "\"name\":\"name-value\"," +
+                    "\"id\":{" +
+                    "\"id\":878," +
+                    "\"_links\":{\"self\":{\"href\":\"http://some.com/linked/878\"}}" +
+                    "}," +
+                    "\"street\":\"street-value\"" +
+                    "}");
         }
 
         @Test

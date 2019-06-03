@@ -3,28 +3,30 @@ package io.github.acdcjunior.domainid.linked;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import io.github.acdcjunior.domainid.DomainId;
+import io.github.acdcjunior.domainid.DomainIdJsonDeserializer;
 import io.github.acdcjunior.domainid.DomainIdJsonSerializer;
 
 import java.io.IOException;
 
 
-public class LinkedDomainIdDeserializer<ID extends DomainId> extends JsonDeserializer<ID> {
-
-    private final Class<ID> handledType;
+public class LinkedDomainIdDeserializer<ID extends DomainId> extends DomainIdJsonDeserializer<ID> {
 
     public LinkedDomainIdDeserializer(Class<ID> handledType) {
+        super(assertHandledTypeIsAnnotatedWithLinkedDomainId(handledType));
+    }
+
+    private static <ID extends DomainId> Class<ID> assertHandledTypeIsAnnotatedWithLinkedDomainId(Class<ID> handledType) {
         if (handledType.getAnnotation(LinkedDomainId.class) == null) {
             throw new IllegalArgumentException("LinkedDomainIdSerializer should only be used with DomainId classes" +
                     " annotated with @LinkedDomainId. If your DomainId is not annotated with it, you don't need" +
                     " to specify any deserializer, Jackson will already automatically know how to deserialize it.");
         }
-        this.handledType = handledType;
+        return handledType;
     }
 
     @Override
-    public ID deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    protected Long deserializeIdAsLong(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         Long id = deserializationContext.readValue(jsonParser, Long.class);
 
         String idFieldName = jsonParser.getCurrentName();
@@ -38,7 +40,7 @@ public class LinkedDomainIdDeserializer<ID extends DomainId> extends JsonDeseria
             consumeToken(jsonParser, deserializationContext, JsonToken.END_OBJECT, idFieldName); // }
         }
 
-        return DomainId.newInstance(handledType, id);
+        return id;
     }
 
     private void consumeToken(JsonParser jsonParser, DeserializationContext deserializationContext, JsonToken expectedToken, final String idFieldName) throws IOException {
