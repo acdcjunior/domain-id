@@ -162,8 +162,9 @@ public abstract class DomainId implements Comparable<DomainId>, Serializable, Cl
             try {
                 return domainIdClass.getConstructor(Long.class);
             } catch (NoSuchMethodException | SecurityException e) {
-                throw new IllegalArgumentException(format("Error while looking for a single-argument long/Long constructor in class %s. Did you declare one?",
-                        domainIdClass.getSimpleName()), e);
+                throw new IllegalArgumentException(format("Error while looking for a single-argument long/Long constructor" +
+                                " in class %s. Did you declare one? Is the %s class really public?",
+                        domainIdClass.getSimpleName(), domainIdClass.getSimpleName()), e);
             }
         }
     }
