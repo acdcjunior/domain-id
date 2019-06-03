@@ -24,9 +24,10 @@ import java.io.IOException;
  * </code></pre>
  * @param <ID> The id class, that extends DomainId.
  */
+@SuppressWarnings("WeakerAccess")
 public class DomainIdJsonDeserializer<ID extends DomainId> extends JsonDeserializer<ID> {
 
-    private final Class<ID> handledType;
+    protected final Class<ID> handledType;
 
     public DomainIdJsonDeserializer(Class<ID> handledType) {
         this.handledType = handledType;
@@ -37,32 +38,40 @@ public class DomainIdJsonDeserializer<ID extends DomainId> extends JsonDeseriali
         return DomainId.newInstance(handledType, extractIdValue(jsonParser, deserializationContext));
     }
 
-    private Long extractIdValue(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    protected Long extractIdValue(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         if (jsonParser.currentToken() == JsonToken.START_OBJECT) {
-            String idObjectFieldName = jsonParser.currentName();
-
-            String fieldName;
-            while ((fieldName = jsonParser.nextFieldName()) != null && !fieldName.equals("id") && !fieldName.equals("cod")) {
-                jsonParser.nextToken(); // move cursor to fieldName's value
-                deserializationContext.readValue(jsonParser, Object.class); // consume it all
-            }
-            if (fieldName == null) { // reached end of object
-                return reportWrongToken(deserializationContext, "Expected a field named \"id\" or \"cod\" in the object value of field \"%s\", but none was found.", idObjectFieldName);
-            }
-            JsonToken idValueToken = jsonParser.nextToken();
-            if (idValueToken != JsonToken.VALUE_NUMBER_INT) {
-                return reportWrongToken(deserializationContext, "Field \"%s\" of the object value of field \"%s\" should be a long/int.", fieldName, idObjectFieldName);
-            }
-            Long id = deserializationContext.readValue(jsonParser, Long.class);
-
-            // consume every other prop until idObject ends
-            jsonParser.nextToken();
-            deserializationContext.readValue(jsonParser, Object.class);
-
-            return id;
+            return deserializeIdAsObject(jsonParser, deserializationContext);
         } else {
-            return deserializationContext.readValue(jsonParser, Long.class);
+            return deserializeIdAsLong(jsonParser, deserializationContext);
         }
+    }
+
+    protected Long deserializeIdAsObject(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+        String idObjectFieldName = jsonParser.currentName();
+
+        String fieldName;
+        while ((fieldName = jsonParser.nextFieldName()) != null && !fieldName.equals("id") && !fieldName.equals("cod")) {
+            jsonParser.nextToken(); // move cursor to fieldName's value
+            deserializationContext.readValue(jsonParser, Object.class); // consume it all
+        }
+        if (fieldName == null) { // reached end of object
+            return reportWrongToken(deserializationContext, "Expected a field named \"id\" or \"cod\" in the object value of field \"%s\", but none was found.", idObjectFieldName);
+        }
+        JsonToken idValueToken = jsonParser.nextToken();
+        if (idValueToken != JsonToken.VALUE_NUMBER_INT) {
+            return reportWrongToken(deserializationContext, "Field \"%s\" of the object value of field \"%s\" should be a long/int.", fieldName, idObjectFieldName);
+        }
+        Long id = deserializationContext.readValue(jsonParser, Long.class);
+
+        // consume every other prop until idObject ends
+        jsonParser.nextToken();
+        deserializationContext.readValue(jsonParser, Object.class);
+
+        return id;
+    }
+
+    protected Long deserializeIdAsLong(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+        return deserializationContext.readValue(jsonParser, Long.class);
     }
 
     private Long reportWrongToken(DeserializationContext deserializationContext, String msg, Object... msgArgs) throws JsonMappingException {
