@@ -6,8 +6,8 @@ Single dependency model to import all others at once.
 
 Deploy locally:
 
-    .\gradlew publishToMavenLocal
+    .\gradlew publishToMavenLocal -i
     
 Deploy to central:
 
-    .\gradlew publish
+    .\gradlew publish -i
