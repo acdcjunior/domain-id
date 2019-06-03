@@ -12,19 +12,20 @@ Importing:
 
 ```groovy
 dependencies {
-    implementation('io.github.acdcjunior:domain-id-all:0.1.0')
+    implementation('io.github.acdcjunior:domain-id-all:0.2.0')
 ```
 ```xml
 <dependencies>
 	<dependency>
 		<groupId>io.github.acdcjunior</groupId>
 		<artifactId>domain-id-all</artifactId>
-		<version>0.1.0</version>
+		<version>0.2.0</version>
 	</dependency>
 ```
 
-**NOTE:** Observe that this lib's `.jar` does not bring any dependencies.
-That is **intentional**. Our purpose is not to force any specific Hibernate or Jackson minor versions.
+**NOTE:** Although `domain-id-hibernate-usertype`'s code depends on hibernate and JPA, its `.jar` does not bring any dependencies.
+That is **intentional**. Our purpose is not to force any specific Hibernate or Jackson (in the case of `domain-id-serializer-converter`)
+minor versions.
 You should, therefore, declare the dependencies as usual (in your `build.gradle` or `pom.xml`) and guarantee
 everything works via at least one runtime test.
 
