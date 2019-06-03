@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -47,7 +48,7 @@ class DomainIdJacksonSerializerTest {
         // execute
         SomeClassWithIdProperty someObjectJsonDeSerialized = JsonConverter.fromJson(someObjectJson, SomeClassWithIdProperty.class);
         // verify
-        assertEquals(someObjectJsonDeSerialized.j, 999);
+        assertThat(someObjectJsonDeSerialized.j).isEqualTo(999);
         assertEquals(someObjectJsonDeSerialized.idObject, new ExampleDomainId(555L));
     }
 
@@ -104,7 +105,7 @@ class DomainIdJacksonSerializerTest {
             // execute
             String someObjectJson = JsonConverter.toJson(someObject);
             // verify
-            Assertions.assertThat(someObjectJson).isEqualToIgnoringWhitespace(
+            assertThat(someObjectJson).isEqualToIgnoringWhitespace(
                     "{\n" +
                     "  \"j\":1,\n" +
                     "  \"otherId\":11,\n" +
@@ -125,7 +126,7 @@ class DomainIdJacksonSerializerTest {
             // execute
             DomainIdJacksonSerializerTest.SomeClassWithIdLinkedProperty someObjectJsonDeSerialized = JsonConverter.fromJson(someObjectJson, DomainIdJacksonSerializerTest.SomeClassWithIdLinkedProperty.class);
             // verify
-            assertEquals(someObjectJsonDeSerialized.j, 999);
+            assertThat(someObjectJsonDeSerialized.j).isEqualTo(999);
             assertEquals(someObjectJsonDeSerialized.otherId, new ExampleDomainId(333));
             assertEquals(someObjectJsonDeSerialized.id, new ExampleLinkedDomainId(444));
             assertEquals(someObjectJsonDeSerialized.otherLinkedId, new ExampleLinkedDomainId(555));
