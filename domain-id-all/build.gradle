@@ -18,7 +18,7 @@ publishing {
 		maven(MavenPublication) {
 			groupId = 'io.github.acdcjunior'
 			artifactId = 'domain-id-all'
-			version = '0.1.0'
+			version = '0.2.0'
 
 			pom.withXml {
 				asNode().children().last() + {
@@ -50,7 +50,7 @@ publishing {
 						dependency {
 							groupId 'io.github.acdcjunior'
 							artifactId 'domain-id'
-							version '1.0.0'
+							version '1.0.1'
 						}
 						dependency {
 							groupId 'io.github.acdcjunior'
@@ -60,7 +60,7 @@ publishing {
 						dependency {
 							groupId 'io.github.acdcjunior'
 							artifactId 'domain-id-serializer-converter'
-							version '0.1.0'
+							version '0.2.0'
 						}
 					}
 				}
