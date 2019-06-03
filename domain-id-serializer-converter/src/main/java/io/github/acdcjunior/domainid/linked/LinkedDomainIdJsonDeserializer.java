@@ -10,9 +10,17 @@ import io.github.acdcjunior.domainid.DomainIdJsonSerializer;
 import java.io.IOException;
 
 
-public class LinkedDomainIdDeserializer<ID extends DomainId> extends DomainIdJsonDeserializer<ID> {
+/**
+ * This deserializer "consumes" the "_links" field right after the "id" field.<br>
+ * This deserializer only makes sense if you have configured jackson to NOT ignore unknown fields (like _links), because,
+ * if you did, there's no need to consume it (so just use {@link DomainIdJsonDeserializer}), as jackson won't complain
+ * about the hanging "_links" anyway.
+ *
+ * @param <ID> The id class, that extends DomainId.
+ */
+public class LinkedDomainIdJsonDeserializer<ID extends DomainId> extends DomainIdJsonDeserializer<ID> {
 
-    public LinkedDomainIdDeserializer(Class<ID> handledType) {
+    public LinkedDomainIdJsonDeserializer(Class<ID> handledType) {
         super(assertHandledTypeIsAnnotatedWithLinkedDomainId(handledType));
     }
 
