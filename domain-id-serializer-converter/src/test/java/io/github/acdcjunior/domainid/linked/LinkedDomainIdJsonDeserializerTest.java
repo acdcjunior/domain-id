@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SuppressWarnings("WeakerAccess")
-public class LinkedDomainIdDeserializerTest {
+public class LinkedDomainIdJsonDeserializerTest {
 
     @LinkedDomainId("http://some.com/aaa/#")
     public static class AaaLinkedId extends DomainId {
@@ -190,30 +190,30 @@ public class LinkedDomainIdDeserializerTest {
 
 
 
-class AaaLinkedIdDeserializer extends LinkedDomainIdDeserializer<LinkedDomainIdDeserializerTest.AaaLinkedId> {
-    AaaLinkedIdDeserializer() {
-        super(LinkedDomainIdDeserializerTest.AaaLinkedId.class);
+class AaaLinkedIdJsonDeserializer extends LinkedDomainIdJsonDeserializer<LinkedDomainIdJsonDeserializerTest.AaaLinkedId> {
+    AaaLinkedIdJsonDeserializer() {
+        super(LinkedDomainIdJsonDeserializerTest.AaaLinkedId.class);
     }
 }
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 class OneWithAaa {
     public String name = "name-value";
-    public LinkedDomainIdDeserializerTest.AaaLinkedId id = new LinkedDomainIdDeserializerTest.AaaLinkedId(22);
+    public LinkedDomainIdJsonDeserializerTest.AaaLinkedId id = new LinkedDomainIdJsonDeserializerTest.AaaLinkedId(22);
     public String street = "street-value";
 }
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 class TwoWithAaa {
     public String name = "name-value";
-    public LinkedDomainIdDeserializerTest.AaaLinkedId cod = new LinkedDomainIdDeserializerTest.AaaLinkedId(22);
+    public LinkedDomainIdJsonDeserializerTest.AaaLinkedId cod = new LinkedDomainIdJsonDeserializerTest.AaaLinkedId(22);
     public String street = "street-value";
 }
 
 @SuppressWarnings("unused")
 class ThreeWithAaa {
     public String name = "name-value";
-    public LinkedDomainIdDeserializerTest.AaaLinkedId notAnIdField = new LinkedDomainIdDeserializerTest.AaaLinkedId(22);
+    public LinkedDomainIdJsonDeserializerTest.AaaLinkedId notAnIdField = new LinkedDomainIdJsonDeserializerTest.AaaLinkedId(22);
     public String street = "street-value";
 }
 
@@ -221,7 +221,7 @@ class ThreeWithAaa {
 @SuppressWarnings("SameParameterValue")
 class TestJsonDeserializer {
 
-    private static ObjectMapper mapper(Class<LinkedDomainIdDeserializerTest.AaaLinkedId> type, JsonDeserializer<LinkedDomainIdDeserializerTest.AaaLinkedId> deserializer) {
+    private static ObjectMapper mapper(Class<LinkedDomainIdJsonDeserializerTest.AaaLinkedId> type, JsonDeserializer<LinkedDomainIdJsonDeserializerTest.AaaLinkedId> deserializer) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         SimpleModule module = new SimpleModule();
@@ -231,10 +231,10 @@ class TestJsonDeserializer {
     }
 
     static <T> T fromJsonAaaLinkedDomainId(String jsonString, Class<T> clazzBase) throws IOException {
-        return mapper(LinkedDomainIdDeserializerTest.AaaLinkedId.class, new LinkedDomainIdDeserializer<>(LinkedDomainIdDeserializerTest.AaaLinkedId.class)).readValue(jsonString, clazzBase);
+        return mapper(LinkedDomainIdJsonDeserializerTest.AaaLinkedId.class, new LinkedDomainIdJsonDeserializer<>(LinkedDomainIdJsonDeserializerTest.AaaLinkedId.class)).readValue(jsonString, clazzBase);
     }
     static <T> T fromJsonAaaLinkedDomainId2(String jsonString, Class<T> clazzBase) throws IOException {
-        return mapper(LinkedDomainIdDeserializerTest.AaaLinkedId.class, new AaaLinkedIdDeserializer()).readValue(jsonString, clazzBase);
+        return mapper(LinkedDomainIdJsonDeserializerTest.AaaLinkedId.class, new AaaLinkedIdJsonDeserializer()).readValue(jsonString, clazzBase);
     }
 
 }
