@@ -6,9 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.github.acdcjunior.domainid.DomainId;
-import io.github.acdcjunior.domainid.linked.LinkedDomainId;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -77,61 +74,6 @@ class DomainIdJacksonSerializerTest {
         // verify
         assertEquals(deserializedJsonObject.getId(), new ExampleDomainId(30L));
         assertEquals(deserializedJsonObject.getName(), "bozo");
-    }
-
-    @LinkedDomainId("http://example.com/linked/#")
-    private static class ExampleLinkedDomainId extends DomainId {
-        ExampleLinkedDomainId(long id) {
-            super(id);
-        }
-    }
-
-    @SuppressWarnings({"unused", "WeakerAccess"})
-    private static class SomeClassWithIdLinkedProperty {
-        public int j = 1;
-        public ExampleDomainId otherId = new ExampleDomainId(11);
-        public ExampleLinkedDomainId id = new ExampleLinkedDomainId(22);
-        public ExampleLinkedDomainId otherLinkedId = new ExampleLinkedDomainId(33);
-    }
-
-    @Nested
-    @DisplayName("Linked Domain ID serialization")
-    class LinkedDomainIdSerialization {
-
-        @Test
-        void convertsObjectIntoJson() throws Exception {
-            // setup
-            DomainIdJacksonSerializerTest.SomeClassWithIdLinkedProperty someObject = new DomainIdJacksonSerializerTest.SomeClassWithIdLinkedProperty();
-            // execute
-            String someObjectJson = JsonConverter.toJson(someObject);
-            // verify
-            assertThat(someObjectJson).isEqualToIgnoringWhitespace(
-                    "{\n" +
-                    "  \"j\":1,\n" +
-                    "  \"otherId\":11,\n" +
-                    "  \"id\":22,\n" +
-                    "  \"_links\":{\"self\":{\"href\":\"http://example.com/linked/22\"}},\n" +
-                    "  \"otherLinkedId\":{\n" +
-                    "    \"id\":33,\n" +
-                    "    \"_links\":{\"self\":{\"href\":\"http://example.com/linked/33\"}}\n" +
-                    "  }\n" +
-                    "}"
-            );
-        }
-
-        @Test
-        void convertsJsonIntoObject() throws Exception {
-            //setup
-            String someObjectJson = "{\"j\":999,\"otherId\":333,\"id\":444,\"otherLinkedId\":555}";
-            // execute
-            DomainIdJacksonSerializerTest.SomeClassWithIdLinkedProperty someObjectJsonDeSerialized = JsonConverter.fromJson(someObjectJson, DomainIdJacksonSerializerTest.SomeClassWithIdLinkedProperty.class);
-            // verify
-            assertThat(someObjectJsonDeSerialized.j).isEqualTo(999);
-            assertEquals(someObjectJsonDeSerialized.otherId, new ExampleDomainId(333));
-            assertEquals(someObjectJsonDeSerialized.id, new ExampleLinkedDomainId(444));
-            assertEquals(someObjectJsonDeSerialized.otherLinkedId, new ExampleLinkedDomainId(555));
-        }
-
     }
 
 }
