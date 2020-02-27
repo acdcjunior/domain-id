@@ -1,10 +1,11 @@
 plugins {
 	id 'java'
+	id 'java-library'
 }
 
 group = 'io.github.acdcjunior'
 archivesBaseName = 'domain-id-serializer-converter'
-version = '0.2.0'
+version = '1.0.0'
 sourceCompatibility = 1.8
 
 repositories {
@@ -18,7 +19,7 @@ ext.jacksonDataBindVersion = '2.9.8'
 ext.junitVersion = '5.4.2'
 
 dependencies {
-	implementation 'io.github.acdcjunior:domain-id:1.0.0'
+	api 'io.github.acdcjunior:domain-id:1.0.0'
 	implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonDataBindVersion" // Serializer/Deserializer
 	implementation "org.springframework:spring-webmvc:$springWebMvcVersion" // Converter/ConverterFactory
 	compileOnly "org.springframework.boot:spring-boot:$springBootVersion" // @JsonComponent
@@ -35,11 +36,6 @@ dependencies {
 
 test {
 	useJUnitPlatform()
-}
-
-wrapper {
-    gradleVersion = '5.4.1'
-    distributionType = Wrapper.DistributionType.ALL
 }
 
 apply from: "maven-central.gradle"

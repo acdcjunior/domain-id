@@ -1,8 +1,10 @@
-package io.github.acdcjunior.domainid;
+package io.github.acdcjunior.domainid.serializer;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import io.github.acdcjunior.domainid.DomainId;
+import io.github.acdcjunior.domainid.serializer.DomainIdJsonDeserializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
