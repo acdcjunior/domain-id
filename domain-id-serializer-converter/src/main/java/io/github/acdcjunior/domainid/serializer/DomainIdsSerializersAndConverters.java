@@ -1,4 +1,4 @@
-package io.github.acdcjunior.domainid;
+package io.github.acdcjunior.domainid.serializer;
 
 /**
  * <p>This class is just a placeholder to be used in {@code scanBasePackageClasses} of the {@code @SpringBootApplication}
@@ -7,7 +7,7 @@ package io.github.acdcjunior.domainid;
  * <pre><code>
  * &nbsp;@SpringBootApplication(
  *     scanBasePackageClasses = {
- *         io.github.acdcjunior.domainid.DomainIdsSerializersAndConverters.class,
+ *         io.github.acdcjunior.domainid.serializer.DomainIdsSerializersAndConverters.class,
  *         ... // other classes
  *     }
  * )

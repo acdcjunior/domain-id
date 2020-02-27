@@ -1,5 +1,6 @@
-package io.github.acdcjunior.domainid;
+package io.github.acdcjunior.domainid.serializer;
 
+import io.github.acdcjunior.domainid.DomainId;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 import org.springframework.stereotype.Component;

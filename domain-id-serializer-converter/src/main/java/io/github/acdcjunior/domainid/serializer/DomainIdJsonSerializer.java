@@ -1,10 +1,11 @@
-package io.github.acdcjunior.domainid;
+package io.github.acdcjunior.domainid.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import io.github.acdcjunior.domainid.DomainId;
 import io.github.acdcjunior.domainid.linked.LinkedDomainId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonComponent;
