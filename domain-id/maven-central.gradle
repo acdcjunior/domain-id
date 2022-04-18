@@ -18,44 +18,47 @@ signing {
     sign configurations.archives
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+// only activate publish/deploy tasks if deployment username and password are set
+if (project.hasProperty('ossrhUsername') && project.hasProperty('ossrhPassword')) {
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'Domain ID'
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'An implementation of Domain IDs.'
-                url 'https://github.com/acdcjunior/domain-id'
-
-                scm {
-                    connection = 'scm:git:git@github.com:acdcjunior/domain-id.git'
-                    developerConnection = 'scm:git:git@github.com:acdcjunior/domain-id.git'
-                    url = 'git@github.com:acdcjunior/domain-id.git'
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
 
-                licenses {
-                    license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name 'Domain ID'
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description 'An implementation of Domain IDs.'
+                    url 'https://github.com/acdcjunior/domain-id'
+
+                    scm {
+                        connection = 'scm:git:git@github.com:acdcjunior/domain-id.git'
+                        developerConnection = 'scm:git:git@github.com:acdcjunior/domain-id.git'
+                        url = 'git@github.com:acdcjunior/domain-id.git'
                     }
-                }
 
-                developers {
-                    developer {
-                        id 'acdcjunior'
-                        name 'Antonio "acdc" Jr.'
-                        email 'acdcjunior@gmail.com'
+                    licenses {
+                        license {
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'acdcjunior'
+                            name 'Antonio "acdc" Jr.'
+                            email 'acdcjunior@gmail.com'
+                        }
                     }
                 }
             }
